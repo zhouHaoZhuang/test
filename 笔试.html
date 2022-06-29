@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .px5 {
+      width: 100%;
+      height: 1px;
+      transform: scaleY(.5);
+      background-color: rgb(0, 0, 0);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 1 css3实现0.5px的细线？ -->
+  <div class="px5">
+
+  </div>
+</body>
+<script>
+  //   2、实现一个函数 ，把data按要求的格式输出
+  // var data= [
+  //   {value:"fruit",label:"香蕉"},
+  //   {value:"fruit",label:"西瓜"},
+  //   {value:"toy",label:"洋娃娃"},
+  //   {value:"city",label:"北京"},
+  //   {value:"city",label:"上海"},
+  //   {value:"city",label:"广州"},
+  // ];
+  // var result = transform(data);
+  // //结果：
+  // result = {
+  //   fruit:['香蕉','西瓜'],
+  //   toy:'洋娃娃',
+  //   city:['北京','上海','广州']
+  // }
+  var data = [
+    { value: "fruit", label: "香蕉" },
+    { value: "fruit", label: "西瓜" },
+    { value: "toy", label: "洋娃娃" },
+    { value: "city", label: "北京" },
+    { value: "city", label: "上海" },
+    { value: "city", label: "广州" },
+  ];
+  function transform(data) {
+    let obj = {}
+    data.forEach(element => {
+      obj[element.value] = obj[element.value] ? [...obj[element.value], element.label] : [element.label]
+    });
+    for (const key in obj) {
+      if (obj[key].length === 1) {
+        obj[key] = obj[key][0]
+      }
+    }
+    return obj
+  }
+  var result = transform(data);
+  console.log(result);
+
+  // 3.给定一个数组 ，再给定一个目标数，例如9。 写一个算法找出两项key值相加等于目标数，
+// 返回他们在数组中的位置。给出一个解即可
+
+  var arr = [{
+    key: 1,
+    item: "test1"
+  }, {
+    key: 3,
+    item: "test3"
+  }, {
+    key: 4,
+    item: "test4"
+  }, {
+    key: 6,
+    item: "test6"
+  }, {
+    key: 7,
+    item: "test7"
+  }
+  ];
+  function trans(arr, target) {
+    let data = []
+    arr.forEach((element, index) => {
+      arr.forEach((item, inx) => {
+        if (item.key + element.key === target) {
+          data = [inx, index]
+        }
+      });
+    });
+    return data.length > 0 ? data : '未找到'
+  }
+  //返回 [1,3]
+  console.log(trans(arr, 9));
+  //返回 [2,4]
+  console.log(
+    trans(arr, 11)
+  );
+  //返回 '未找到'
+  console.log(trans(arr, 30));
+
+  let a = [1,2,3,4,5]
+  let b = a.map((params)=> {
+    return params>3
+  })
+  console.log(b,'/////');
+  setInterval(()=>{
+    console.log("定时器执行了。。。。");
+  },1000)
+
+
+
+
+</script>
+
+</html>

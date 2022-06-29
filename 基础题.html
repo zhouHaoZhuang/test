@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<!-- 第9题 — ESM -->
+<!-- <script type="module" src="./index.js"></script> -->
+<!-- { default: function default(), name: "c" } -->
+<script>
+  // 第1题 — 原型
+  // 所有的对象都有 [[prototype]] 属性（通过 _proto_ 访问），该属性对应对象的原型；所有的函数对象都有 prototype 属性，该属性的值会被赋值给该函数创建的对象的 _proto_ 属性。
+  function Animal() {
+    this.type = "animal"
+  }
+  function Dog() {
+    this.name = "dog"
+  }
+  Dog.prototype = new Animal()
+  var PavlovPet = new Dog();
+  console.log(PavlovPet.__proto__ === Dog.prototype)  //true
+  console.log(Dog.prototype.__proto__ === Animal.prototype)   //true
+
+  // 第2题 — 小心“排序”
+  var arr = [5, 22, 14, 9, 15];
+  // 抱歉，答案不是 [5, 9, 14, 22] 。如果不传入排序函数，sort 函数会将每个元素转换成字符串，然后根据它们的 UTF-16 值排序。
+  console.log(arr.sort());  //)  [14, 15, 22, 5, 9]  根据数字的第一位，排序,然后是第二位
+
+  // 第3题 — 异步循环
+  // 定时器是异步执行，浏览器会优先执行同步任务，在遇到定时器时会先把它们暂存在一个宏任务队列中，待当前宏任务队列的所有任务执行完毕后才会去执行队列中的任务，此时循环已执行完毕，i 已经是 3。
+  // for (let i = 0; i < 3; i++) {
+  //   const log = () => {
+  //     console.log(i)
+  //   }
+  //   setTimeout(log, 100)
+  // }
+
+  // for (var ii = 0; ii < 3; ii++) {
+  //   const log = () => {
+  //     console.log(ii)
+  //   }
+  //   setTimeout(log, 100)
+  // }
+
+  // 第4题 — numbers里面有啥？
+  const length = 4
+  const numbers = []
+  for (var i = 0; i < length; i++); {   //此处的 ‘；’ 表示无循环体，直接跳至最终结果 5  因此大括号中的部分只会执行最后一次
+    console.log(numbers);
+    numbers.push(i + 1)
+  }
+  console.log(numbers)   //[5]
+
+  var arr = []
+  var le = 4
+  for (var index = 0; index < le; index++) {   //正常情况下 [1, 2, 3, 4]
+    arr.push(index + 1)
+  }
+  console.log(arr);
+
+  // 第5题 — 长度为0
+  const clothes = ['shirt', 'socks', 'jacket', 'pants', 'hat']
+  clothes.length = 0  //将数组的长度赋值为 0 就相当于从数组中删除所有元素。
+  console.log(clothes[3], clothes)
+
+  // 第6题 — 变量定义
+  //   第一个输出：全局的 var a
+  // 第二个输出：output 函数中声明的 var a变量提升，还未赋值
+  // 第三个输出：output 函数局部作用域的 a 已赋值
+  // 第四输出：全局的 var a 没有变
+  // var a = 1
+  // function output() {
+  //   console.log(a)  // undefined
+  //   var a = 2
+  //   console.log(a)  // 2
+  // }
+  // console.log(a)  //1
+  // output()
+  // console.log(a)  // 1
+
+  // 第7题 — 找到值了吗
+  function foo() {
+    let a = b = 0  //由于b没有声明，因此执行后变为全局变量
+    a++
+    return a
+  }
+  foo()
+  console.log(typeof a)  //undefined
+  console.log(typeof b)  // number
+
+  // function fu(){ 
+  //   let a = 10  // //当前写法，fu()执行之后 变量a仍未局部变量
+  //   a = 10  //当前写法，fu()执行之后 变量a变为全局变量
+  // }
+  // fu()
+  // console.log(a,'=====');
+
+  // 第8题 — 类型转换
+  console.log(+true)  // 1
+  console.log(!"ConardLi") // false
+
+
+  // 第10题 — 对象做 key
+  const aa = {};
+  const bb = { key: "b" };
+  const cc = { key: "c" };
+
+  aa[bb] = 123;
+  console.log(aa[bb], '===========', aa, cc.toString());  // 123 {[object Object]: 123}  
+  // 注意：以对象作为属性名的时候，该对象将会被转换为[object Object] 字符串。从而导致当前[object Object] 属性名被覆盖
+  aa[cc] = 456;
+  console.log(aa[cc], '===========', aa);  // 456 {[object Object]: 456}
+  console.log(aa[bb], '===========', aa);// 456 {[object Object]: 456}
+
+
+</script>
+
+</html>
